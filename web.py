@@ -14,12 +14,12 @@ PAGE = """
 <!doctype html>
 <title>Chase's Art Display</title>
 <style>
-  body { font-family: system-ui, sans-serif; display: grid; place-items: center;
-         height: 100vh; margin: 0; background: #f4f1ea; }
-  form { text-align: center; }
-  button { font-size: 2rem; padding: 1.5rem 3rem; border-radius: 1rem;
-           border: none; background: #2b2b2b; color: white; cursor: pointer; }
-  p { color: #666; margin-top: 1rem; }
+  body {{ font-family: system-ui, sans-serif; display: grid; place-items: center;
+         height: 100vh; margin: 0; background: #f4f1ea; }}
+  form {{ text-align: center; }}
+  button {{ font-size: 2rem; padding: 1.5rem 3rem; border-radius: 1rem;
+           border: none; background: #2b2b2b; color: white; cursor: pointer; }}
+  p {{ color: #666; margin-top: 1rem; }}
 </style>
 <form method="post" action="/refresh">
   <button type="submit">New Artwork</button>
