@@ -3,7 +3,7 @@
 
 import subprocess
 from pathlib import Path
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, redirect, request, url_for
 
 SCRIPT = Path(__file__).with_name("display_art.py")
 
@@ -51,19 +51,23 @@ PAGE = """
 </script>
 """
 
+MESSAGES = {
+    "started": "Refreshing… give it about a minute.",
+    "busy": "Already refreshing… please wait.",
+}
+
 @app.route("/")
 def index():
-    return render_template_string(PAGE, words=WORDS, msg=None)
+    msg = MESSAGES.get(request.args.get("status"))
+    return render_template_string(PAGE, words=WORDS, msg=msg)
 
 @app.route("/refresh", methods=["POST"])
 def refresh():
     global current
     if current is not None and current.poll() is None:
-        return render_template_string(PAGE, words=WORDS,
-                                      msg="Already refreshing… please wait.")
+        return redirect(url_for("index", status="busy"))
     current = subprocess.Popen(["/usr/bin/python3", str(SCRIPT)])
-    return render_template_string(PAGE, words=WORDS,
-                                  msg="Refreshing… give it about a minute.")
+    return redirect(url_for("index", status="started"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
